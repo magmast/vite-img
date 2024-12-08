@@ -42,3 +42,17 @@ export function getSource(props: SrcImageProps) {
         placeholder: props.placeholder === "blur" ? props.src.blurUrl : undefined,
       };
 }
+
+export interface UrlParams {
+  src: string;
+  q: number;
+  w?: number;
+}
+
+export function getUrl(params: UrlParams) {
+  const searchParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    searchParams.set(key, value);
+  }
+  return `/api/image?${searchParams}`;
+}

@@ -1,8 +1,8 @@
 import { default as sharp } from "sharp";
 import type { Plugin, ResolvedConfig } from "vite";
-import path from 'path';
+import path from "path";
 import fs from "fs/promises";
-import crypto from 'crypto';
+import crypto from "crypto";
 
 const sizesModule = "virtual:vite-img/sizes";
 
@@ -16,6 +16,7 @@ interface CachedImage {
   height?: number;
   blurUrl: string;
   data: sharp.Sharp;
+  path: string;
 }
 
 type ImageCache = Map<string, CachedImage>;
@@ -53,7 +54,11 @@ export default function viteImg({
         }
 
         if (imageIdRegexp.test(id)) {
-          const { src, width, height, blurUrl } = await loadImage({ id, cache: imageCache, config });
+          const { src, width, height, blurUrl } = await loadImage({
+            id,
+            cache: imageCache,
+            config,
+          });
 
           return `
             export default {
@@ -68,22 +73,32 @@ export default function viteImg({
     },
 
     async generateBundle() {
-      if (!config.build.ssr) {
+      if (config.build.ssr) {
         return;
       }
 
-      await Promise.all(Array.from(imageCache.values()).map(async ({ src, data }) => {
-        this.emitFile({
-          type: 'asset',
-          fileName: src,
-          source: await data.toBuffer(),
-        });
-      }));
-    }
+      await Promise.all(
+        Array.from(imageCache.values()).map(async ({ path, data }) => {
+          this.emitFile({
+            type: "asset",
+            fileName: path,
+            source: await data.toBuffer(),
+          });
+        })
+      );
+    },
   };
 }
 
-async function loadImage({ id, cache, config }: { id: string, cache: ImageCache, config: ResolvedConfig }) {
+async function loadImage({
+  id,
+  cache,
+  config,
+}: {
+  id: string;
+  cache: ImageCache;
+  config: ResolvedConfig;
+}) {
   const cached = cache.get(id);
   if (cached) {
     const { data, ...rest } = cached;
@@ -91,31 +106,34 @@ async function loadImage({ id, cache, config }: { id: string, cache: ImageCache,
   }
 
   const data = await fs.readFile(id);
-
   const image = sharp(data);
-  const blurBuffer = await image
-    .clone()
-    .png()
-    .resize({ width: 10 })
-    .toBuffer();
+  const blurBuffer = await image.clone().png().resize({ width: 10 }).toBuffer();
   image.webp({ quality: 100 });
   const metadata = await image.metadata();
-  const hash = crypto.createHash('sha512').update(await image.toBuffer()).digest('hex').slice(0, 8);
 
+  const hash = crypto
+    .createHash("sha512")
+    .update(await image.toBuffer())
+    .digest("hex")
+    .slice(0, 8);
   const extname = path.extname(id);
-  const relativePath = path.relative(config.root, id);
-  const src = config.command === "build"
-    ? `${config.build.assetsDir}/${path.basename(id, extname)}-${hash}.webp`
-    : relativePath;
+  const filename = `${path.basename(id, extname)}-${hash}.webp`;
 
   const result = {
-    src,
+    src:
+      config.command === "build"
+        ? path.join(config.base, config.build.assetsDir, filename)
+        : `/${path.relative(config.root, id)}`,
     width: metadata.width,
     height: metadata.height,
     blurUrl: `data:image/png;base64,${blurBuffer.toString("base64")}`,
   };
 
-  cache.set(id, { ...result, data: image });
+  cache.set(id, {
+    ...result,
+    data: image,
+    path: path.join(config.build.assetsDir, filename),
+  });
 
   return result;
 }

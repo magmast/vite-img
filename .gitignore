@@ -121,6 +121,8 @@ out
 dist
 build
 .react-router
+.output
+.vinxi
 
 # Gatsby files
 

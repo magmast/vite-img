@@ -1,4 +1,4 @@
-import { type ImageProps as CreateImageProps, getSource } from "@vite-img/core";
+import { type ImageProps as CreateImageProps, getSource, getUrl } from "@vite-img/core";
 import sizes from "virtual:vite-img/sizes";
 import { useState, type ComponentPropsWithoutRef } from "react";
 
@@ -11,7 +11,7 @@ export default function Image({ loading, decoding, quality = 75, style, onLoad, 
   return (
     <img
       {...props}
-      src={getURL({ src, q: quality })}
+      src={getUrl({ src, q: quality })}
       width={width}
       height={height}
       loading={loading ?? "lazy"}
@@ -27,8 +27,8 @@ export default function Image({ loading, decoding, quality = 75, style, onLoad, 
             }
           : style
       }
-      srcSet={(sizes as number[])
-        .map((size) => `${getURL({ src, w: size, q: quality })} ${size}w`)
+      srcSet={sizes
+        .map((size) => `${getUrl({ src, w: size, q: quality })} ${size}w`)
         .join(", ")}
       onLoad={(event) => {
         setLoading(false);
@@ -40,19 +40,4 @@ export default function Image({ loading, decoding, quality = 75, style, onLoad, 
       }}
     />
   );
-}
-
-interface UrlParams {
-  src: string;
-  q: number;
-  w?: number;
-  h?: number;
-}
-
-function getURL(params: UrlParams) {
-  const searchParams = new URLSearchParams();
-  for (const [key, value] of Object.entries(params)) {
-    searchParams.set(key, value);
-  }
-  return `/api/image?${searchParams}`;
 }
