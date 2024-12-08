@@ -1,13 +1,20 @@
 import Image from "@vite-img/react";
-import local from '~/assets/image.jpg';
+import local from "~/assets/image.jpg";
 
-const sizes = "(max-width: 640px) 100vw, (max-width: 768px) 768w, (max-width: 1024px) 1024w, (max-width: 1280px) 1280w, 1536w"
+const sizes =
+  "(max-width: 640px) 100vw, (max-width: 768px) 768w, (max-width: 1024px) 1024w, (max-width: 1280px) 1280w, 1536w";
 
 export default function Home() {
   return (
     <main className="container mx-auto">
       <h2>Local</h2>
-      <Image src={local} alt="Local image" placeholder="blur" className="max-w-full" sizes={sizes} />
+      <Image
+        src={local}
+        alt="Local image"
+        placeholder="blur"
+        className="max-w-full"
+        sizes={sizes}
+      />
 
       <h2>Remote</h2>
       <Image

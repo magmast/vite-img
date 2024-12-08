@@ -123,6 +123,7 @@ build
 .react-router
 .output
 .vinxi
+.turbo
 
 # Gatsby files
 

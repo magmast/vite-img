@@ -24,7 +24,7 @@ class MemoryCache implements Cache {
 class FsCache implements Cache {
   private static readonly CACHE_DIR = new URL(
     ".cache/vite-img",
-    import.meta.url
+    import.meta.url,
   ).pathname;
 
   async read(params: UrlParams) {
@@ -76,7 +76,7 @@ export async function apiRoute(request: Request) {
           message: "Internal server error.",
         },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -115,7 +115,7 @@ async function getParams(requestUrl: string) {
           message: "Missing src search parameter.",
         },
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
   const quality = url.searchParams.get("q") ?? "75";

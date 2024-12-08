@@ -22,15 +22,18 @@ type StaticSrcImageProps = {
 export type SrcImageProps = StringSrcImageProps | StaticSrcImageProps;
 
 type ImageOwnProps = SrcImageProps & {
-    alt: string;
-    quality?: number;
-  };
+  alt: string;
+  quality?: number;
+};
 
-function isStringSrcImageProps(props: SrcImageProps): props is StringSrcImageProps {
-  return typeof props.src === 'string';
+function isStringSrcImageProps(
+  props: SrcImageProps,
+): props is StringSrcImageProps {
+  return typeof props.src === "string";
 }
 
-export type ImageProps<TImgProps> = Omit<TImgProps, keyof ImageOwnProps> & ImageOwnProps;
+export type ImageProps<TImgProps> = Omit<TImgProps, keyof ImageOwnProps> &
+  ImageOwnProps;
 
 export function getSource(props: SrcImageProps) {
   return isStringSrcImageProps(props)
@@ -39,7 +42,8 @@ export function getSource(props: SrcImageProps) {
         src: props.src.src,
         width: props.width ?? props.src.width,
         height: props.height ?? props.src.height,
-        placeholder: props.placeholder === "blur" ? props.src.blurUrl : undefined,
+        placeholder:
+          props.placeholder === "blur" ? props.src.blurUrl : undefined,
       };
 }
 

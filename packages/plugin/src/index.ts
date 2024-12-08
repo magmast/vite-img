@@ -84,7 +84,7 @@ export default function viteImg({
             fileName: path,
             source: await data.toBuffer(),
           });
-        })
+        }),
       );
     },
   };

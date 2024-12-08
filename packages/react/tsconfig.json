@@ -24,5 +24,7 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
     "types": ["@vite-img/plugin/types"]
-  }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }

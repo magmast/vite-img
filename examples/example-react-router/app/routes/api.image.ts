@@ -1,1 +1,1 @@
-export { loader } from '@vite-img/react-router';
+export { loader } from "@vite-img/react-router";

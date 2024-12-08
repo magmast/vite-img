@@ -1,9 +1,9 @@
-import 'tailwindcss/tailwind.css';
+import "tailwindcss/tailwind.css";
 
-import { Suspense } from 'solid-js';
-import { Router } from '@solidjs/router';
-import { FileRoutes } from '@solidjs/start/router';
-import { MetaProvider, Title } from '@solidjs/meta';
+import { Suspense } from "solid-js";
+import { Router } from "@solidjs/router";
+import { FileRoutes } from "@solidjs/start/router";
+import { MetaProvider, Title } from "@solidjs/meta";
 
 export default function App() {
   return (

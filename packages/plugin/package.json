@@ -15,13 +15,16 @@
   "files": ["./dist/"],
   "scripts": {
     "build": "rimraf dist && tsup",
-    "dev": "rimraf dist && tsup --watch"
+    "dev": "rimraf dist && tsup --watch",
+    "format": "prettier --write ./src",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@vite-img/core": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2"

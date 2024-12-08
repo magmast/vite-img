@@ -1,7 +1,7 @@
 import { reactRouter } from "@react-router/dev/vite";
 import autoprefixer from "autoprefixer";
 import tailwindcss from "tailwindcss";
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import viteImg from '@vite-img/plugin';
 
@@ -11,5 +11,5 @@ export default defineConfig({
       plugins: [tailwindcss, autoprefixer],
     },
   },
-  plugins: [reactRouter(), tsconfigPaths(), viteImg()],
+  plugins: [reactRouter() as Plugin[], tsconfigPaths(), viteImg()],
 });
