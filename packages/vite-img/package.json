@@ -3,38 +3,33 @@
   "type": "module",
   "version": "0.0.1",
   "main": "./dist/index.js",
-  "types": "./src/index.tsx",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "rollup -c --configPlugin swc",
-    "watch": "rollup -c --configPlugin swc --watch"
+    "build": "rimraf dist && tsup",
+    "watch": "rimraf dist && tsup --watch"
   },
   "files": [
-    "./dist/",
-    "./src/"
+    "./dist/"
   ],
   "exports": {
     ".": {
-      "types": "./src/index.tsx",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./plugin": {
-      "types": "./src/plugin.ts",
-      "import": "./dist/plugin.js",
-      "require": "./dist/plugin.cjs"
+      "types": "./dist/plugin.d.ts",
+      "import": "./dist/plugin.js"
     },
     "./react-router": {
-      "types": "./src/react-router.ts",
-      "import": "./dist/react-router.js",
-      "require": "./dist/react-router.cjs"
+      "types": "./dist/react-router.d.ts",
+      "import": "./dist/react-router.js"
     },
-    "./types": "./src/types.d.ts"
+    "./types": "./dist/types.d.ts"
   },
   "peerDependencies": {
     "react": "^19.0.0",
     "react-router": "^7.0.2",
     "sharp": "^0.33.5",
-    "typescript": "^5.0.0",
     "vite": "^6.0.3"
   },
   "peerDependenciesMeta": {
@@ -46,10 +41,10 @@
     }
   },
   "devDependencies": {
-    "@rollup/plugin-swc": "^0.4.0",
-    "@swc/core": "^1.10.0",
     "@types/bun": "latest",
     "@types/react": "^19.0.1",
-    "rollup": "^4.28.1"
+    "rimraf": "^6.0.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.0.0"
   }
 }
