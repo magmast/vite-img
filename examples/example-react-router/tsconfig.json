@@ -1,13 +1,7 @@
 {
-  "include": [
-    "**/*",
-    "**/.server/**/*",
-    "**/.client/**/*",
-    ".react-router/types/**/*"
-  ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "types": ["node", "vite-img/types", "vite/client"],
+    "types": ["node", "@vite-img/plugin/types", "vite/client"],
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "bundler",
@@ -23,5 +17,11 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true
-  }
+  },
+  "include": [
+    "**/*",
+    "**/.server/**/*",
+    "**/.client/**/*",
+    ".react-router/types/**/*"
+  ]
 }

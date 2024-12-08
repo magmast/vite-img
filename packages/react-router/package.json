@@ -1,0 +1,32 @@
+{
+  "name": "@vite-img/react-router",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["./dist/"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@vite-img/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "tsup": "^8.3.5",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "@vite-img/plugin": "workspace:*",
+    "react-router": ">=7.0.0",
+    "sharp": ">=0.33.0"
+  }
+}

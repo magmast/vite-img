@@ -1,5 +1,5 @@
 import { default as sharp } from "sharp";
-import { type Plugin, type ResolvedConfig } from "vite";
+import type { Plugin, ResolvedConfig } from "vite";
 import path from 'path';
 import fs from "fs/promises";
 import crypto from 'crypto';

@@ -52,8 +52,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 async function openImage(src: string) {
-  const url = new URL(src, import.meta.url);
+  const url = new URL(src, process.env.NODE_ENV === "development" ? `file://${process.cwd()}/index.js` : import.meta.url);
   if (url.protocol === 'file:') {
+    console.log(url.pathname);
     return sharp(url.pathname);
   }
 

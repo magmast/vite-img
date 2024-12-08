@@ -1,0 +1,31 @@
+{
+  "name": "@vite-img/react",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["./dist/"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@vite-img/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "tsup": "^8.3.5",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "@vite-img/plugin": "workspace:*",
+    "react": ">=18.0.0"
+  }
+}

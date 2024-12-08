@@ -1,40 +1,11 @@
+import { type ImageProps as CreateImageProps, getSource } from "@vite-img/core";
 import sizes from "virtual:vite-img/sizes";
 import { useState, type ComponentPropsWithoutRef } from "react";
 
-export interface StaticImage {
-  src: string;
-  width: number;
-  height: number;
-  blurUrl: string;
-}
-
-type StringSrcImageProps = {
-  src: string;
-  placeholder?: undefined;
-  width: number | string;
-  height: number | string;
-};
-
-type StaticSrcImageProps = {
-  src: StaticImage;
-  placeholder?: "blur";
-  width?: number | string;
-  height?: number | string;
-};
-
-type ImageOwnProps = (StringSrcImageProps | StaticSrcImageProps) & {
-    alt: string;
-    quality?: number;
-  };
-
-export type ImageProps = Omit<
-  ComponentPropsWithoutRef<"img">,
-  keyof ImageOwnProps
-> &
-  ImageOwnProps;
+export type ImageProps = CreateImageProps<ComponentPropsWithoutRef<"img">>
 
 export default function Image({ loading, decoding, quality = 75, style, onLoad, onError, ...props }: ImageProps) {
-  const { src, width, height, placeholder } = normalizeSrc(props);
+  const { src, width, height, placeholder } = getSource(props);
   const [isLoading, setLoading] = useState(true);
 
   return (
@@ -84,15 +55,4 @@ function getURL(params: UrlParams) {
     searchParams.set(key, value);
   }
   return `/api/image?${searchParams}`;
-}
-
-function normalizeSrc({ src, width, height, placeholder }: StaticSrcImageProps | StringSrcImageProps) {
-  return typeof src === "string"
-    ? { src, width, height }
-    : {
-        src: src.src,
-        width: width ?? src.width,
-        height: height ?? src.height,
-        placeholder: placeholder === "blur" ? src.blurUrl : undefined
-      };
 }

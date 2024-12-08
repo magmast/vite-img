@@ -1,4 +1,6 @@
 {
+  "name": "@vite-img/root",
+  "private": true,
   "workspaces": [
     "./packages/*",
     "./examples/*"
