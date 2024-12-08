@@ -8,20 +8,22 @@ export interface StaticImage {
   blurUrl: string;
 }
 
-type WidthAndHeight = Pick<ComponentPropsWithoutRef<"img">, "width" | "height">;
-
 type StringSrcImageProps = {
   src: string;
   placeholder?: undefined;
-} & Required<WidthAndHeight>;
+  width: number | string;
+  height: number | string;
+};
 
 type StaticSrcImageProps = {
   src: StaticImage;
   placeholder?: "blur";
-} & WidthAndHeight;
+  width?: number | string;
+  height?: number | string;
+};
 
-type ImageOwnProps = (StringSrcImageProps | StaticSrcImageProps) &
-  Required<Pick<ComponentPropsWithoutRef<"img">, "alt">> & {
+type ImageOwnProps = (StringSrcImageProps | StaticSrcImageProps) & {
+    alt: string;
     quality?: number;
   };
 
@@ -31,49 +33,23 @@ export type ImageProps = Omit<
 > &
   ImageOwnProps;
 
-function buildProps({ src, width, height, ...props }: ImageProps) {
-  const srcAndSize =
-    typeof src === "string"
-      ? { src, width, height }
-      : {
-          src: src.src,
-          width: width ?? src.width,
-          height: height ?? src.height,
-        };
-
-  return {
-    ...props,
-    srcSet: ``,
-    ...srcAndSize,
-  } satisfies ComponentPropsWithoutRef<"img">;
-}
-
-export default function Image(props: ImageProps) {
-  const {
-    loading,
-    decoding,
-    src,
-    quality = 75,
-    placeholder,
-    style,
-    ...other
-  } = buildProps(props);
-
-  console.log(props.placeholder === "blur" ? props.src.blurUrl : src);
-
+export default function Image({ loading, decoding, quality = 75, style, onLoad, onError, ...props }: ImageProps) {
+  const { src, width, height, placeholder } = normalizeSrc(props);
   const [isLoading, setLoading] = useState(true);
 
   return (
     <img
-      {...other}
-      src={props.placeholder === "blur" ? props.src.blurUrl : src}
+      {...props}
+      src={getURL({ src, q: quality })}
+      width={width}
+      height={height}
       loading={loading ?? "lazy"}
       decoding={decoding ?? "async"}
       style={
-        props.placeholder === "blur" && isLoading
+        placeholder != null && isLoading
           ? {
               ...style,
-              backgroundImage: `url(${props.src.blurUrl})`,
+              backgroundImage: `url(${placeholder})`,
               backgroundSize: "cover",
               backgroundPosition: "50% 50%",
               backgroundRepeat: "no-repeat",
@@ -81,10 +57,42 @@ export default function Image(props: ImageProps) {
           : style
       }
       srcSet={(sizes as number[])
-        .map((size) => `${src}?w=${size}&q=${quality} ${size}w`)
+        .map((size) => `${getURL({ src, w: size, q: quality })} ${size}w`)
         .join(", ")}
-      onLoad={() => setLoading(false)}
-      onError={() => setLoading(false)}
+      onLoad={(event) => {
+        setLoading(false);
+        onLoad?.(event);
+      }}
+      onError={(event) => {
+        setLoading(false);
+        onError?.(event);
+      }}
     />
   );
+}
+
+interface UrlParams {
+  src: string;
+  q: number;
+  w?: number;
+  h?: number;
+}
+
+function getURL(params: UrlParams) {
+  const searchParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    searchParams.set(key, value);
+  }
+  return `/api/image?${searchParams}`;
+}
+
+function normalizeSrc({ src, width, height, placeholder }: StaticSrcImageProps | StringSrcImageProps) {
+  return typeof src === "string"
+    ? { src, width, height }
+    : {
+        src: src.src,
+        width: width ?? src.width,
+        height: height ?? src.height,
+        placeholder: placeholder === "blur" ? src.blurUrl : undefined
+      };
 }

@@ -119,6 +119,8 @@ out
 
 .nuxt
 dist
+build
+.react-router
 
 # Gatsby files
 

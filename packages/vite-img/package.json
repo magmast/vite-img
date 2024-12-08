@@ -1,8 +1,9 @@
 {
   "name": "vite-img",
-  "module": "index.ts",
   "type": "module",
   "version": "0.0.1",
+  "main": "./dist/index.js",
+  "types": "./src/index.tsx",
   "scripts": {
     "build": "rollup -c --configPlugin swc",
     "watch": "rollup -c --configPlugin swc --watch"
@@ -17,10 +18,15 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./vite": {
-      "types": "./src/vite.ts",
-      "import": "./dist/vite.js",
-      "require": "./dist/vite.cjs"
+    "./plugin": {
+      "types": "./src/plugin.ts",
+      "import": "./dist/plugin.js",
+      "require": "./dist/plugin.cjs"
+    },
+    "./react-router": {
+      "types": "./src/react-router.ts",
+      "import": "./dist/react-router.js",
+      "require": "./dist/react-router.cjs"
     },
     "./types": "./src/types.d.ts"
   },

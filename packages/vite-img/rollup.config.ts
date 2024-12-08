@@ -3,7 +3,8 @@ import { defineConfig, type RollupOptions } from "rollup";
 
 export default defineConfig([
   bundle({ input: "index.tsx", output: "index" }),
-  bundle({ input: "vite.ts", output: "vite" }),
+  bundle({ input: "plugin.ts", output: "plugin" }),
+  bundle({ input: 'react-router.ts', output: 'react-router' })
 ]);
 
 function bundle({ input, output }: { input: string; output: string }) {
