@@ -1,7 +1,7 @@
 import Image from "vite-img";
 import local from '~/assets/image.jpg';
 
-const sizes = "(max-width: 640px) 100vw, (max-width: 768px) 768w, (max-width: 1024px) 1024w, (max-width: 1280px) 1280w, (max-width: 1536px) 1536w, 2560w"
+const sizes = "(max-width: 640px) 100vw, (max-width: 768px) 768w, (max-width: 1024px) 1024w, (max-width: 1280px) 1280w, 1536w"
 
 export default function Home() {
   return <div className="container mx-auto">
