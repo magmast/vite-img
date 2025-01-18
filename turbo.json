@@ -12,6 +12,10 @@
     "format": {},
     "typecheck": {
       "dependsOn": ["^typecheck"]
+    },
+    "publish": {
+      "cache": false,
+      "dependsOn": ["^publish", "build"]
     }
   }
 }

@@ -1,12 +1,13 @@
 {
   "name": "@vite-img/example-solid-start",
   "type": "module",
+  "private": true,
   "scripts": {
     "dev": "vinxi dev",
     "build": "vinxi build",
     "start": "vinxi start",
     "version": "vinxi version",
-    "format": "prettier --write ./src",
+    "format": "prettier --write --ignore-path ../../.gitignore .",
     "typecheck": "tsc"
   },
   "dependencies": {

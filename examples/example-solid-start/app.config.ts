@@ -3,6 +3,6 @@ import viteImg from "@vite-img/plugin";
 
 export default defineConfig({
   vite: {
-    plugins: [viteImg()]
-  }
+    plugins: [viteImg()],
+  },
 });

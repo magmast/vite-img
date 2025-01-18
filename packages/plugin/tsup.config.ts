@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from "fs/promises";
 import { defineConfig } from "tsup";
 
 export default defineConfig({
@@ -8,6 +8,6 @@ export default defineConfig({
   shims: true,
   dts: true,
   async onSuccess() {
-    await fs.copyFile('./src/types.d.ts', './dist/types.d.ts');
-  }
+    await fs.copyFile("src/types.d.ts", "dist/types.d.ts");
+  },
 });

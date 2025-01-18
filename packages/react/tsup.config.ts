@@ -1,11 +1,11 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ['src/index.tsx'],
-  format: ['esm', 'cjs'],
+  entry: ["src/index.tsx"],
+  format: ["esm", "cjs"],
   sourcemap: true,
   shims: true,
   clean: true,
   dts: true,
-  external: ['virtual:vite-img/sizes']
+  external: ["virtual:vite-img/sizes"],
 });
